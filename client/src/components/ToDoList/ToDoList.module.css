@@ -1,0 +1,32 @@
+.toDoList {
+	width: 100%;
+	height: calc(100% - 61px);
+	display: flex;
+	justify-content: center;
+	/* background: red; */
+	margin-top: 5px;
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 700px;
+	gap: 5px;
+}
+
+.list li {
+	list-style: none;
+	padding: 10px 15px;
+	background: #29a9b9;
+	width: 100%;
+	font-size: 24px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.list li .controls {
+	font-size: 30px;
+}

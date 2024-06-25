@@ -9,10 +9,16 @@ export const useUserStore = create(set => ({
 
 	login: async (email, password) => {
 		try {
-			const { data } = await axios.post(`${PREFIX}/api/login`, {
-				email,
-				password
-			})
+			const { data } = await axios.post(
+				`${PREFIX}/api/login`,
+				{
+					email,
+					password
+				},
+				{
+					withCredentials: true
+				}
+			)
 			set({
 				email: data.user.email,
 				id: data.user.id,
@@ -27,14 +33,44 @@ export const useUserStore = create(set => ({
 
 	registration: async (email, password) => {
 		try {
-			await axios.post(`${PREFIX}/api/registration`, {
-				email,
-				password
-			})
+			await axios.post(
+				`${PREFIX}/api/registration`,
+				{
+					email,
+					password
+				},
+				{
+					withCredentials: true
+				}
+			)
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				throw new Error(err.response?.data.message)
 			}
+		}
+	},
+
+	checkAuth: async () => {
+		try {
+			const { data } = await axios.get(`${PREFIX}/api/checkAuth`, {
+				withCredentials: true
+			})
+
+			set({
+				email: data.user.email,
+				id: data.user.id,
+				isActivated: data.user.isActivated
+			})
+
+			return true
+		} catch (err) {
+			set({
+				email: '',
+				id: '',
+				isActivated: ''
+			})
+
+			return false
 		}
 	}
 }))

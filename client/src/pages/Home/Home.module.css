@@ -1,0 +1,20 @@
+.home {
+	width: 100%;
+	height: 100%;
+	background: #04486f;
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+	gap: 5px;
+}
+
+.to-do-list-container {
+	height: 100%;
+	display: flex;
+	gap: 5px;
+}
+
+.tasks {
+	width: 100%;
+	/* background: red; */
+}

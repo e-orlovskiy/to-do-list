@@ -73,6 +73,18 @@ class UserService {
 
 		return { ...tokens, user: userDto }
 	}
+
+	async checkAuth(refreshToken) {
+		if (!refreshToken) throw ApiError.UnauthorizedError()
+
+		const userData = await tokenService.validateRefreshToken(refreshToken)
+		const user = await UserModel.findOne({ email: userData.email })
+
+		if (!userData || !user) throw ApiError.UnauthorizedError()
+
+		const userDto = new UserDto(user)
+		return { user: userDto }
+	}
 }
 
 export default new UserService()

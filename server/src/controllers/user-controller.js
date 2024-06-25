@@ -70,7 +70,16 @@ class UserController {
 			next(err)
 		}
 	}
-	// получать что-нибудь
+
+	async checkAuth(req, res, next) {
+		try {
+			const { refreshToken } = req.cookies
+			const userData = await userService.checkAuth(refreshToken)
+			return res.json(userData)
+		} catch (err) {
+			next(err)
+		}
+	}
 }
 
 export default new UserController()

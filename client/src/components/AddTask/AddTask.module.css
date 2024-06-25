@@ -1,0 +1,27 @@
+.addTaskContainer {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	gap: 5px;
+}
+
+.addTaskInput {
+	font-size: 28px;
+	padding: 10px;
+	border: 2px solid black;
+	border-radius: 5px;
+	outline: none;
+}
+
+.addTaskBtn {
+	width: 56px;
+	height: 56px;
+	border: 2px solid black;
+	border-radius: 5px;
+	background: yellowgreen;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 28px;
+	cursor: pointer;
+}
