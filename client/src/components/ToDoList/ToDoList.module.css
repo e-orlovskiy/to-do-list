@@ -3,16 +3,24 @@
 	height: calc(100% - 61px);
 	display: flex;
 	justify-content: center;
-	/* background: red; */
 	margin-top: 5px;
+}
+
+.listContainer {
+	width: 700px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
 }
 
 .list {
 	display: flex;
 	flex-direction: column;
+	gap: 5px;
 	height: 100%;
 	width: 700px;
-	gap: 5px;
+	overflow-y: auto;
 }
 
 .list li {
@@ -20,11 +28,13 @@
 	padding: 10px 15px;
 	background: #29a9b9;
 	width: 100%;
-	font-size: 24px;
+	font-size: 20px;
 	border-radius: 5px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	height: 55px;
+	flex-shrink: 0;
 }
 
 .list li .controls {

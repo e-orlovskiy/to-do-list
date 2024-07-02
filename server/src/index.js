@@ -11,13 +11,16 @@ const MONGO_URL = process.env.MONGO_URL
 
 const app = express()
 
+app.use('/uploads', express.static('uploads'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
 const corsOptions = {
 	origin: process.env.CLIENT_URL,
 	credentials: true
 }
 
 app.use(cors(corsOptions))
-app.use(express.json())
 app.use(cookieParser())
 app.use('/api', router)
 app.use(errorMiddleware)

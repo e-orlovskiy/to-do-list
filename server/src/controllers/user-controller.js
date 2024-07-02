@@ -1,23 +1,36 @@
 import 'dotenv/config'
 import { validationResult } from 'express-validator'
 import { ApiError } from '../exceptions/api-errors.js'
+import { deleteFileOnError } from '../middlewares/multer-middleware.js'
 import userService from '../services/user-service.js'
 
 class UserController {
 	async registration(req, res, next) {
+		console.log(req.body)
+		console.log(req.file)
+		console.log(req.file.path)
 		try {
 			const errors = validationResult(req)
 			if (!errors.isEmpty()) {
-				return next(ApiError.BadRequest('Ошибка при валидации', errors.array()))
+				deleteFileOnError(req, res, next)
+				return next(ApiError.BadRequest('Некорректные данные', errors.array()))
 			}
-			const { email, password } = req.body
-			const userData = await userService.registration(email, password)
+			const { email, password, firstname, lastname } = req.body
+			const avatarPath = req.file ? req.file.path : null
+			const userData = await userService.registration(
+				email,
+				password,
+				firstname,
+				lastname,
+				avatarPath
+			)
 			res.cookie('refreshToken', userData.refreshToken, {
 				maxAge: 30 * 24 * 60 * 60 * 1000, //30 дней
 				httpOnly: true
 			})
 			return res.json(userData)
 		} catch (err) {
+			deleteFileOnError(req, res, next)
 			next(err)
 		}
 	}

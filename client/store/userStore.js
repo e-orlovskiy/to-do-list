@@ -31,18 +31,12 @@ export const useUserStore = create(set => ({
 		}
 	},
 
-	registration: async (email, password) => {
+	registration: async formData => {
 		try {
-			await axios.post(
-				`${PREFIX}/api/registration`,
-				{
-					email,
-					password
-				},
-				{
-					withCredentials: true
-				}
-			)
+			await axios.post(`${PREFIX}/api/registration`, formData, {
+				headers: { 'Content-Type': 'multipart/form-data' },
+				withCredentials: true
+			})
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				throw new Error(err.response?.data.message)

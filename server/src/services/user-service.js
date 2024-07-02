@@ -7,7 +7,7 @@ import mailService from './mail-service.js'
 import tokenService from './token-service.js'
 
 class UserService {
-	async registration(email, password) {
+	async registration(email, password, firstname, lastname, avatarPath) {
 		const candidate = await UserModel.findOne({ email })
 		if (candidate)
 			throw ApiError.BadRequest('Пользователь с таким email уже существует')
@@ -18,6 +18,9 @@ class UserService {
 		const user = await UserModel.create({
 			email,
 			password: hashPassword,
+			firstname,
+			lastname,
+			avatar: avatarPath, // Сохранение пути к аватарке
 			activationLink
 		})
 

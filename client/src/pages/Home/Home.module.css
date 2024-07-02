@@ -1,7 +1,23 @@
 .home {
 	width: 100%;
 	height: 100%;
-	background: #04486f;
+	background: hsla(209, 100%, 50%, 1);
+	background: linear-gradient(
+		180deg,
+		hsla(209, 100%, 50%, 1) 0%,
+		hsla(216, 43%, 23%, 1) 100%
+	);
+	background: -moz-linear-gradient(
+		180deg,
+		hsla(209, 100%, 50%, 1) 0%,
+		hsla(216, 43%, 23%, 1) 100%
+	);
+	background: -webkit-linear-gradient(
+		180deg,
+		hsla(209, 100%, 50%, 1) 0%,
+		hsla(216, 43%, 23%, 1) 100%
+	);
+	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#0084FF", endColorstr="#213553", GradientType=1 );
 	display: flex;
 	flex-direction: column;
 	padding: 5px;
@@ -16,5 +32,9 @@
 
 .tasks {
 	width: 100%;
+	border-radius: 7px;
+	background: rgba(0, 0, 0, 0.25);
+	border: 2px solid #027bed;
+	padding: 10px;
 	/* background: red; */
 }

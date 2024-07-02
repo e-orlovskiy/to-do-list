@@ -1,13 +1,19 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
 import userController from '../controllers/user-controller.js'
+import { upload } from '../middlewares/multer-middleware.js'
 
 const router = Router()
 
 router.post(
 	'/registration',
-	body('email').isEmail(),
-	body('password').isLength({ min: 3, max: 32 }),
+	upload.single('avatar'),
+	[
+		body('email').isEmail(),
+		body('password').isLength({ min: 3, max: 32 }),
+		body('firstname').isLength({ min: 3, max: 32 }),
+		body('lastname').isLength({ min: 3, max: 32 })
+	],
 	userController.registration
 )
 router.post('/login', userController.login)
