@@ -1,0 +1,31 @@
+.inputField {
+	font-size: 16px;
+	border-radius: 7px;
+	background: #027bed55;
+	border-bottom: 2px solid #027bed;
+	width: 100%;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding-left: 10px;
+	transition: 0.7s;
+}
+
+.inputField input {
+	border: none;
+	outline: none;
+	padding: 10px 5px 10px 0px;
+	background: transparent;
+	font-size: 16px;
+	color: #fff;
+	width: 100%;
+}
+
+.inputField input::placeholder {
+	color: #fff;
+}
+
+.invalid {
+	border-bottom: 2px solid #d93725 !important;
+}

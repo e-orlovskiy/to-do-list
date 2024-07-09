@@ -6,6 +6,7 @@ export const useUserStore = create(set => ({
 	email: '',
 	id: '',
 	isActivated: false,
+	errorText: null,
 
 	login: async (email, password) => {
 		try {
@@ -39,6 +40,8 @@ export const useUserStore = create(set => ({
 			})
 		} catch (err) {
 			if (err instanceof AxiosError) {
+				set({ errorText: err.response?.data.message })
+				setTimeout(() => set({ errorText: null }), 5000)
 				throw new Error(err.response?.data.message)
 			}
 		}

@@ -2,11 +2,9 @@
 	height: 100%;
 	width: 100%;
 	background: hsla(209, 100%, 50%, 1);
-	background: linear-gradient(
-		180deg,
-		hsla(209, 100%, 50%, 1) 0%,
-		hsla(216, 43%, 23%, 1) 100%
-	);
+	background: url('../../../public/background.webp') no-repeat;
+	background-position: center;
+	background-size: cover;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -22,39 +20,16 @@
 }
 
 .form {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 5px;
-	padding: 10px;
-	background: hsla(0, 0%, 0%, 0.25);
+	padding: 20px;
+	background: #002548ca;
 	border-radius: 7px;
-	width: 400px;
+	width: 420px;
 	border: 2px solid #027bed;
-}
-
-.form label {
-	font-size: 16px;
-	border-radius: 7px;
-	background: #027bed55;
-	border-bottom: 2px solid #027bed;
-	width: 100%;
-	color: #fff;
-	display: flex;
-	align-items: center;
-	gap: 5px;
-	padding-left: 10px;
-	transition: 0.25s;
-}
-
-.form input {
-	border: none;
-	outline: none;
-	padding: 10px 5px 10px 0px;
-	background: transparent;
-	font-size: 16px;
-	color: #fff;
-	width: 100%;
 }
 
 .firstname-and-lastname {
@@ -62,12 +37,8 @@
 	gap: 5px;
 }
 
-.form input::placeholder {
-	color: #fff;
-}
-
 .form button {
-	margin-top: 20px;
+	margin-top: 60px;
 	font-size: 18px;
 	padding: 10px 25px;
 	background: #027bed55;
@@ -92,7 +63,8 @@
 	color: #fff;
 }
 
-.file-drop-area.is-active {
+.file-drop-area.is-active,
+.file-drop-area:hover {
 	background-color: #027bed55; /* Adjust active state background color */
 }
 
@@ -103,8 +75,4 @@
 
 .file-input {
 	display: none;
-}
-
-.invalid {
-	border-bottom: 2px solid #d93725 !important;
 }
