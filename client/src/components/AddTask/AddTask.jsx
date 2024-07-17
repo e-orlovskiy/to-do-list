@@ -5,23 +5,28 @@ import { useTasksStore } from '../../../store/tasksStore'
 import styles from './AddTask.module.css'
 
 function AddTask() {
-	const { addTaskToStore } = useTasksStore()
-	const [task, setTask] = useState('')
+	const { addTaskToDB } = useTasksStore()
+	const [taskName, setTaskName] = useState('')
+	const [task, setTask] = useState({})
 
-	const addTask = () => {
-		addTaskToStore(task)
-		setTask('')
+	const addTaskHandler = () => {
+		setTask({
+			name: taskName,
+			isDone: false,
+			date: new Date()
+		})
+		addTaskToDB(task)
 	}
 
 	return (
 		<div className={cn(styles.addTaskContainer)}>
 			<input
-				value={task}
+				value={taskName}
 				type='text'
 				className={cn(styles.addTaskInput)}
-				onChange={e => setTask(e.target.value)}
+				onChange={e => setTaskName(e.target.value)}
 			/>
-			<button onClick={addTask} className={cn(styles.addTaskBtn)}>
+			<button onClick={addTaskHandler} className={cn(styles.addTaskBtn)}>
 				<IoMdAdd />
 			</button>
 		</div>

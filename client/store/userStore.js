@@ -25,6 +25,7 @@ export const useUserStore = create(set => ({
 				id: data.user.id,
 				isActivated: data.user.isActivated
 			})
+			return data
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				throw new Error(err.response?.data.message)

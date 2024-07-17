@@ -13,10 +13,8 @@
 
 .registration h2 {
 	font-size: 30px;
-	/* font-weight: normal; */
 	color: #ffffff;
 	margin: 10px;
-	/* color: #f2825c; */
 }
 
 .form {
@@ -75,4 +73,8 @@
 
 .file-input {
 	display: none;
+}
+
+.invalid {
+	border: 2px dashed #d93725 !important;
 }

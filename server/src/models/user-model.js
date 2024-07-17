@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import { TasksModel } from './tasks-model.js'
 
 const UserSchema = new Schema({
 	email: { type: String, unique: true, required: true },
@@ -8,6 +9,15 @@ const UserSchema = new Schema({
 	avatar: { type: String },
 	isActivated: { type: Boolean, default: false },
 	activationLink: { type: String }
+})
+
+UserSchema.post('save', async function (doc) {
+	try {
+		await TasksModel.create({ user: doc._id })
+	} catch (error) {
+		console.error('error while creating tasks for user', error)
+		throw error
+	}
 })
 
 export const UserModel = model('User', UserSchema)

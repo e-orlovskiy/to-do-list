@@ -9,8 +9,7 @@ import tokenService from './token-service.js'
 class UserService {
 	async registration(email, password, firstname, lastname, avatarPath) {
 		const candidate = await UserModel.findOne({ email })
-		if (candidate)
-			throw ApiError.BadRequest('Пользователь с таким email уже существует')
+		if (candidate) throw ApiError.BadRequest('Пользователь с таким email уже существует')
 
 		const hashPassword = await bcrypt.hash(password, 3)
 		const activationLink = uuidv4()

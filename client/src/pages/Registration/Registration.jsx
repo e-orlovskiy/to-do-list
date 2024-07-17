@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { IoIosLock, IoMdMail } from 'react-icons/io'
 import { MdTextSnippet } from 'react-icons/md'
 import { RiUser3Fill } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../../../store/userStore'
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage'
 import InputField from '../../components/InputField/InputField'
@@ -12,6 +13,7 @@ function Registration() {
 	const [dragging, setDragging] = useState(false)
 	const [fileName, setFileName] = useState('Аватар')
 	const [email, setEmail] = useState('')
+	const [avatar, setAvatar] = useState(null)
 	const [firstname, setFirstname] = useState('')
 	const [lastname, setLastname] = useState('')
 	const [password, setPassword] = useState('')
@@ -19,12 +21,14 @@ function Registration() {
 	const [isEmailValid, setIsEmailValid] = useState(false)
 	const [isFirstnameValid, setIsFirstnameValid] = useState(false)
 	const [isLastnameValid, setIsLastnameValid] = useState(false)
+	const [isAvatarValid, setIsAvatarValid] = useState(false)
 	const [isPasswordValid, setIsPasswordValid] = useState(false)
 	const [isPassword2Valid, setIsPassword2Valid] = useState(false)
 	const fileInputRef = useRef(null)
 
 	const registration = useUserStore(state => state.registration)
 	const errorText = useUserStore(state => state.errorText)
+	const navigate = useNavigate()
 
 	const submit = async e => {
 		e.preventDefault()
@@ -34,9 +38,10 @@ function Registration() {
 			!isFirstnameValid ||
 			!isLastnameValid ||
 			!isPasswordValid ||
-			!isPassword2Valid
+			!isPassword2Valid ||
+			!avatar
 		) {
-			useUserStore.setState({ errorText: 'Заполните все обязательные поля' })
+			useUserStore.setState({ errorText: 'Заполните все поля' })
 			setTimeout(() => useUserStore.setState({ errorText: null }), 5000)
 			return
 		}
@@ -46,14 +51,10 @@ function Registration() {
 		formData.append('firstname', e.target.firstname.value)
 		formData.append('lastname', e.target.lastname.value)
 		formData.append('password', e.target.password.value)
-		formData.append('avatar', fileInputRef.current)
-
-		for (let pair of formData.entries()) {
-			console.log(pair[0] + ': ' + pair[1])
-		}
+		formData.append('avatar', avatar)
 
 		const result = await registration(formData)
-		console.log(result)
+		if (result) navigate('/')
 	}
 
 	const handleDragOver = e => {
@@ -65,26 +66,56 @@ function Registration() {
 		setDragging(false)
 	}
 
+	const validateFile = file => {
+		const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp']
+		const maxSize = 5 * 1024 * 1024 // 5 MB
+
+		if (!allowedTypes.includes(file.type)) {
+			useUserStore.setState({ errorText: 'Недопустимый тип файла аватарки' })
+			setTimeout(() => useUserStore.setState({ errorText: null }), 3000)
+			setIsAvatarValid(false)
+			return false
+		}
+		if (file.size > maxSize) {
+			useUserStore.setState({ errorText: 'Слишком большой файл аватарки' })
+			setTimeout(() => useUserStore.setState({ errorText: null }), 3000)
+			setIsAvatarValid(false)
+			return false
+		}
+
+		useUserStore.setState({ errorText: null })
+		setIsAvatarValid(true)
+		return true
+	}
+
 	const handleDrop = e => {
 		e.preventDefault()
 		setDragging(false)
 		const file = e.dataTransfer.files[0]
-		fileInputRef.current = file
-		setFileName(file.name)
+
+		if (validateFile(file)) {
+			setAvatar(file)
+			setFileName(file.name)
+		} else {
+			setAvatar(null)
+			setFileName('Аватар')
+		}
 	}
 
 	const handleFileInputChange = e => {
-		const files = e.target.files
-		if (files.length > 0) {
-			setFileName(files[0].name)
-			fileInputRef.current = files[0]
+		const file = e.target.files[0]
+
+		if (validateFile(file)) {
+			setAvatar(file)
+			setFileName(file.name)
+		} else {
+			setAvatar(null)
+			setFileName('Аватар')
 		}
 	}
 
 	const handleFileLabelClick = () => {
-		if (fileInputRef.current) {
-			fileInputRef.current.click()
-		}
+		fileInputRef.current.click()
 	}
 
 	const handlePasswordChange = e => {
@@ -176,9 +207,13 @@ function Registration() {
 					/>
 				</div>
 				<div
-					className={cn(styles['file-drop-area'], {
-						[styles['is-active']]: dragging
-					})}
+					className={cn(
+						styles['file-drop-area'],
+						{
+							[styles['is-active']]: dragging
+						},
+						{ [styles['invalid']]: !isAvatarValid }
+					)}
 					onDragOver={handleDragOver}
 					onDragLeave={handleDragLeave}
 					onDrop={handleDrop}

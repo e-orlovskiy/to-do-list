@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import { useUserStore } from '../../../store/userStore'
 
 function Login() {
 	const login = useUserStore(state => state.login)
 	const emailFromStore = useUserStore(state => state.email)
+	const navigate = useNavigate()
 
 	const submit = async e => {
 		e.preventDefault()
@@ -10,8 +12,8 @@ function Login() {
 		const email = e.target.email.value
 		const password = e.target.password.value
 
-		await login(email, password)
-		console.log(emailFromStore)
+		const result = await login(email, password)
+		if (result) navigate('/')
 	}
 
 	return (
