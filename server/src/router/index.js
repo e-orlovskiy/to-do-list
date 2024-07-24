@@ -24,9 +24,8 @@ router.get('/refresh', userController.refresh)
 router.get('/checkAuth', userController.checkAuth)
 // tasks
 router.post('/tasks', taskController.createTask)
-// router.get('/tasks', taskController.getTasks)
+router.get('/tasks', taskController.getTasks)
 // router.put('/tasks/:id', taskController.updateTask)
 // router.delete('/tasks/:id', taskController.deleteTask)
-// router.get('/test', userController.refresh)
 
 export default router

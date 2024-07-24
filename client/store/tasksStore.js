@@ -2,15 +2,31 @@ import axios, { AxiosError } from 'axios'
 import { create } from 'zustand'
 import { PREFIX } from '../src/config/api.config'
 
-// uuid для id задач
-
 export const useTasksStore = create(set => ({
 	tasks: [],
 
-	addTaskToDB: async ({ name, isDone, date }) => {
-		console.log(name, isDone, date)
+	// id
+	// name
+	// isDone
+	// date
+
+	getTasksFromDB: async () => {
 		try {
-			const { res } = await axios.post(
+			const { data } = await axios.get(`${PREFIX}/api/tasks`, {
+				withCredentials: true
+			})
+			set({
+				tasks: [...data.tasks]
+			})
+		} catch (error) {
+			if (error instanceof AxiosError) {
+				throw new Error(error.response?.data.message)
+			}
+		}
+	},
+	addTaskToDB: async ({ name, isDone, date }) => {
+		try {
+			const { data } = await axios.post(
 				`${PREFIX}/api/tasks`,
 				{
 					name,
@@ -21,10 +37,10 @@ export const useTasksStore = create(set => ({
 					withCredentials: true
 				}
 			)
-			set({
-				tasks: [...set.tasks, { name, isDone, date }]
-			})
-			return res
+			set(state => ({
+				tasks: [...state.tasks, data.task]
+			}))
+			return data.task
 		} catch (err) {
 			if (err instanceof AxiosError) {
 				throw new Error(err.response?.data.message)

@@ -3,16 +3,20 @@ import taskService from '../services/task-service.js'
 class TaskController {
 	async getTasks(req, res, next) {
 		try {
-			// service
+			const allTasks = await taskService.getTasks(req.cookies.refreshToken)
+			return res.json(allTasks)
 		} catch (err) {
 			next(err)
 		}
 	}
 
 	async createTask(req, res, next) {
-		console.log(req.body, req.cookies.refreshToken)
 		try {
-			taskService.createTask({ task: { ...req.body }, refreshToken: req.cookies.refreshToken })
+			const result = await taskService.createTask({
+				task: { ...req.body },
+				refreshToken: req.cookies.refreshToken
+			})
+			return res.json(result)
 		} catch (err) {
 			next(err)
 		}
@@ -20,7 +24,6 @@ class TaskController {
 
 	async updateTask(req, res, next) {
 		try {
-			// service
 		} catch (err) {
 			next(err)
 		}

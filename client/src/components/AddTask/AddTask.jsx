@@ -7,15 +7,20 @@ import styles from './AddTask.module.css'
 function AddTask() {
 	const { addTaskToDB } = useTasksStore()
 	const [taskName, setTaskName] = useState('')
-	const [task, setTask] = useState({})
 
-	const addTaskHandler = () => {
-		setTask({
-			name: taskName,
-			isDone: false,
-			date: new Date()
-		})
-		addTaskToDB(task)
+	const changeTaskHandler = e => {
+		setTaskName(e.target.value)
+	}
+
+	const addTaskHandler = async () => {
+		if (!taskName.trim()) return
+		const res = await addTaskToDB({ name: taskName, isDone: false, date: new Date() })
+		console.log(res)
+		// if (task) {
+		// 	console.log('task added')
+		// 	useTasksStore.setState({ tasks: [...useTasksStore.getState().tasks, task] })
+		// }
+		setTaskName('')
 	}
 
 	return (
@@ -23,8 +28,8 @@ function AddTask() {
 			<input
 				value={taskName}
 				type='text'
+				onChange={changeTaskHandler}
 				className={cn(styles.addTaskInput)}
-				onChange={e => setTaskName(e.target.value)}
 			/>
 			<button onClick={addTaskHandler} className={cn(styles.addTaskBtn)}>
 				<IoMdAdd />
